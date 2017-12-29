@@ -6,9 +6,7 @@ import {
 
 export default [
   {
-    location: `You open your eyes... squint into the light. Where are you?
-
-You look around. Hard drive, processor, graphics card. You must be inside a compute`,
+    location: (state) => `Welcome ${state.name}. You open your eyes... squint into the light. Where are you? You look around. Hard drive, processor, graphics card. You must be inside a compute`,
     actions: [
       {
         verb: 'look around',
