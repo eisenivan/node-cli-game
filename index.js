@@ -8,20 +8,33 @@ const parseResult = (data, state) => typeof data === 'function' ? data(state) : 
 
 let state = {
   name: '',
-  level: 0
+  level: 0,
+  printLevelDescription: true
 }
 
 const parseInput = (err, result) => {
+  // blank line for readability
+  console.log('')
   const level = king.findFirst(state, gameRules)
   if (level) {
-    const levelDescription = parseResult(level.location)
-    console.log(levelDescription)
+    if (state.printLevelDescription) {
+      const levelDescription = parseResult(level.location, state)
+      console.log(levelDescription)
+      state.printLevelDescription = false
+    }
+
     prompt.get(['action'], (err, result) => {
       if (result.action !== 'quit') {
         const action = level.actions.find(action => action.verb === result.action)
         if (action) {
-          console.log(action.response)
+          // blank line for readability
+          console.log('')
+          console.log(parseResult(action.response, state))
           state = assign({}, state, action.newState)
+        } else {
+          // blank line for readability
+          console.log('')
+          console.log('Sorry, you cannot do that')
         }
 
         parseInput()
