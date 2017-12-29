@@ -3,19 +3,29 @@ import regent from 'regent'
 import assign from 'lodash.assign'
 import gameRules from './game'
 
-const king = regent.init()
+const { findFirst, rule } = regent.init()
 const parseResult = (data, state) => typeof data === 'function' ? data(state) : data
+const failState = (action) => {
+  console.log(parseResult(action.failResponse, state))
+  state = assign({}, state, parseResult(action.failState, state))
+}
+const successState = (action) => {
+  console.log(parseResult(action.response, state))
+  state = assign({}, state, parseResult(action.successState, state))
+}
 
 let state = {
   name: '',
   level: 0,
-  printLevelDescription: true
+  printLevelDescription: true,
+  gear: ['glasses'],
+  visibleItems: []
 }
 
 const parseInput = (err, result) => {
   // blank line for readability
   console.log('')
-  const level = king.findFirst(state, gameRules)
+  const level = findFirst(state, gameRules)
   if (level) {
     if (state.printLevelDescription) {
       const levelDescription = parseResult(level.location, state)
@@ -29,8 +39,18 @@ const parseInput = (err, result) => {
         if (action) {
           // blank line for readability
           console.log('')
-          console.log(parseResult(action.response, state))
-          state = assign({}, state, action.newState)
+
+          // check for action rules
+          if (action.rules) {
+            const success = action.rules.every(single => rule(state, single))
+            if (success) {
+              successState(action)
+            } else {
+              failState(action)
+            }
+          } else {
+            successState(action)
+          }
         } else {
           // blank line for readability
           console.log('')

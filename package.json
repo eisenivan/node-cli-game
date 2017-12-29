@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "play": "babel-node index.js"
+    "play": "babel-node index.js",
+    "start": "npm run play"
   },
   "author": "",
   "license": "ISC",
