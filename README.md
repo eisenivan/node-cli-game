@@ -24,7 +24,7 @@ npm run play
 
 To quit the game type `quit` as your action.
 
-## Development
+## Development / Contribution
 
 The game logic all lives inside of `game.js`. The progression is handled as an array of game stages, each one with actions. This game uses `regent` as the logic engine to select the correct game level.
 
