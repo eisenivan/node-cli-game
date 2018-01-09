@@ -12,7 +12,7 @@
   "dependencies": {
     "lodash.assign": "^4.2.0",
     "prompt": "^1.0.0",
-    "regent": "^1.0.1"
+    "regent": "^1.1.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
